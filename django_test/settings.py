@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'products',
+
 ]
 # 추가된 앱은 이 파일에 목록을 추가해주어야 함
 
