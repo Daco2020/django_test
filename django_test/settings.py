@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from .my_settings    import DATABASES, SECRET_KEY
+
+import pymysql
+
+pymysql.install_as_MySQLdb()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3d6ayg3w6gh)e4q#*9(x#&hshx@+)l36n4l8!(sky-gbcp_&fb'
+# SECRET_KEY = ''
 # 서버에 인증된 유저만 접근할 수 있도록 토큰을 생성하고 값을 복구할 때 사용
 # 인증관련된 값에 들어가는 비밀번호 같은 것, 우리 서버에 국한됨
 
@@ -43,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
 ]
 # 추가된 앱은 이 파일에 목록을 추가해주어야 함
 
@@ -55,6 +62,7 @@ MIDDLEWARE = [
    # 'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 # 뷰에 들어가기 전에 검증하는 과정
 # 목록에 있는 곳에 하나씩 들어가 검증함
@@ -89,17 +97,9 @@ WSGI_APPLICATION = 'django_test.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default' : {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_test',
-        'USER': 'root',
-        'PASSWORD': 'daco2020',
-        'HOST': '127.0.0.1', #로컬호스트로 사용가능
-        'PORT': '3306',
-	'OPTIONS': {'charset': 'utf8mb4'} #반드시 설정
-    }
-}
+DATABASES = DATABASES
+SECRET_KEY = SECRET_KEY
+
 # 환경변수 방법 2가지
 # my_settings.py 만들어 따로 관리
 # OS env
@@ -129,13 +129,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -149,3 +149,34 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# CORS 추가설정
+##CORS
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
+# 메서드를 허용하거나 막을 수 있음 
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+)
+
+CORS_ALLOW_HEADERS = (
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+)
+
+
+
